@@ -1,0 +1,28 @@
+
+<div class="participant">
+<div class="card">
+  <video class="video" #localVideo autoplay playsInline></video>
+  <video class="video" #remoteVideo autoplay playsInline></video>
+ 
+      <span class=" muted material-symbols-outlined">
+        mic_off
+        </span>
+
+
+
+
+    <div class="avater">
+      {{ participant.userName[0] |uppercase }}
+    </div>
+
+    <div class="name">
+      <span *ngIf="participant.uid === currentUserUid">
+        {{participant.userName}} (You)
+      </span>
+      <span *ngIf="participant.uid !== currentUserUid">
+        {{ participant.userName }}
+      </span>
+    </div>
+
+</div>
+</div>

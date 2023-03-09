@@ -1,0 +1,23 @@
+.participants{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-rows: auto;
+  grid-gap: 20px;
+  height: 80vh;
+  padding: 10px;
+}
+
+@media(max-width:800px){
+  .participants{
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+  }
+}
+.video{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  background-color: black;
+  border-radius:5px ;
+
+}

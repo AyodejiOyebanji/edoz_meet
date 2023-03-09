@@ -1,0 +1,50 @@
+<!-- <div class="participants" [ngStyle]="{
+  'grid-template-columns': (participants.length === 1) ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
+  'grid-template-rows': (participants.length === 1) ? '1fr' : 'auto',
+  'grid-gap': '20px',
+  'height': '80vh',
+  'padding': '10px'
+}">
+  <div >
+    <app-participant [participant]="participants"></app-participant>
+  </div>
+</div> -->
+
+
+
+<!-- <div  *ngFor="let participant of participants">
+  <app-participant [participant]="participant"></app-participant>
+</div>
+</div> -->
+<div class="participant">
+  <div class="card">
+    <video class="video" #localVideo autoplay playsInline></video>
+    <video class="video" #remoteVideo autoplay playsInline></video>
+   
+        <span class=" muted material-symbols-outlined">
+          mic_off
+          </span>
+  
+  
+  
+  
+      <!-- <div class="avater">
+        {{ participant.userName[0] |uppercase }}
+      </div>
+  
+      <div class="name">
+        <span *ngIf="participant.uid === currentUserUid">
+          {{participant.userName}} (You)
+        </span>
+        <span *ngIf="participant.uid !== currentUserUid">
+          {{ participant.userName }}
+        </span>
+      </div> -->
+  
+  </div>
+  </div>
+
+
+
+
+
