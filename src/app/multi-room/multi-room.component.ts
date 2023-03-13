@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import AgoraRTC from 'agora-rtc-sdk-ng';
 
 
@@ -38,7 +37,6 @@ export class MultiRoomComponent implements OnInit {
   public userName = sessionStorage.getItem('edoz_name');
   public rtmClient: any;
   public channel: any;
- 
   public unMuteState= true
   public muteState= false
   public unMuteStateMic= true
@@ -92,10 +90,7 @@ export class MultiRoomComponent implements OnInit {
   }
 
   joinRoomInit = async () => {
-    // this.rtmClient = await AgoraRTM.createInstance(this.APP_ID);
-    // await this.rtmClient.login({ uid: this.uid, token: this.token });
-    // this.channel = await this.rtmClient.createChannel(this.roomId);
-    // await this.channel.join();
+  
 
     // this.channel.on('MemberJoined', this.handleMemberJoined);
     this.client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
@@ -321,29 +316,4 @@ export class MultiRoomComponent implements OnInit {
   }
   leave_btn() {}
 
-  // // Realtime messaging starts here
-  //   async handleMemberJoined(MemberId: any) {
-  //     console.log('A new member', MemberId);
-
-  //   await  this.addMemberInrealTimeToDom(MemberId);
-  //   }
-
-
-
-
-  //   async addMemberInrealTimeToDom(MemberId: any) {
-  //     console.log("check id  ",MemberId);
-
-
-  //     let  memberItem = `
-  //   <div class="member__wrapper"  id="member__${MemberId}__wrapper">
-  //     <span class="green__icon"></span>
-  //     <p class="member_name" style="color:white;">${MemberId}</p>
-  //   </div>
-  // `;
-  //     this.member__list.nativeElement.insertAdjacentHTML(
-  //       'beforeend',
-  //       memberItem
-  //     );
-  //   }
 }

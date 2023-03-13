@@ -5,11 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
-import { MainScreenComponent } from './main-screen/main-screen.component';
+
 import { ParticipantsComponent } from './participants/participants.component';
-import { FooterComponent } from './footer/footer.component';
+
 import { ParticipantComponent } from './participant/participant.component';
-import { CardComponent } from './card/card.component';
+
 import { FormsModule } from '@angular/forms';
 import { LobbyRoomComponent } from './lobby-room/lobby-room.component';
 import {MatIconModule} from '@angular/material/icon';
@@ -23,11 +23,10 @@ import { MultiRoomComponent } from './multi-room/multi-room.component'
   declarations: [
     AppComponent,
     HomeComponent,
-    MainScreenComponent,
+   
     ParticipantsComponent,
-    FooterComponent,
     ParticipantComponent,
-    CardComponent,
+
     LobbyRoomComponent,
     MultiRoomComponent,
 

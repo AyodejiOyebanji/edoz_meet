@@ -18,34 +18,7 @@
 
 }
 
-#members__container {
-  background-color: #262625;
-  border-right: 1px solid #797a79;
-  overflow-y: auto;
-  width: 90%;
-  max-width: 250px;
-  position: fixed;
-  height: 100%;
-  z-index: 999;
-  margin: -1.8vh;
-}
 
-#members__count {
-  background-color: #1d1d1c;
-  padding: 7px 15px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 5px;
-}
-
-
-
-.member__wrapper {
-  display: flex;
-  align-items: center;
-  column-gap: 10px;
-  padding-left: 1em;
-}
 
 #stream__container {
   justify-self: center;
@@ -111,9 +84,7 @@ width: 100% !important;
     display: none;
   }
 
-  #members__button {
-    display: block;
-  }
+  
 
   #stream__container {
     width: calc(100% - 25rem);
@@ -126,13 +97,7 @@ width: 100% !important;
     width: calc(100% - 20rem);
     left: 0;
   }
-  #messages__container {
-    max-width: 20rem;
-  }
-
-  #message__form {  
-    width: 18.2rem;
-  }
+  
 }
 
 @media (max-width: 768px) {
@@ -154,9 +119,7 @@ width: 100% !important;
     display: none;
   }
 
-  #chat__button {
-    display: block;
-  }
+  
 }
 
 #stream__box {
