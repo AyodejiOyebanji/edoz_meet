@@ -14,7 +14,8 @@ import { FormsModule } from '@angular/forms';
 import { LobbyRoomComponent } from './lobby-room/lobby-room.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatButtonModule} from '@angular/material/button'
+import {MatButtonModule} from '@angular/material/button';
+import { MultiRoomComponent } from './multi-room/multi-room.component'
 
 
 
@@ -28,6 +29,7 @@ import {MatButtonModule} from '@angular/material/button'
     ParticipantComponent,
     CardComponent,
     LobbyRoomComponent,
+    MultiRoomComponent,
 
 
   ],
