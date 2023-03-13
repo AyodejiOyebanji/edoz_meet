@@ -8,9 +8,9 @@ import { ParticipantComponent } from './participant/participant.component';
 
 const routes: Routes = [
 
-  {path:"", component:HomeComponent, title:"Home"},
+  // {path:"", component:HomeComponent, title:"Home"},
+  {path:"", component:LobbyRoomComponent, title:""},
   {path:"multi/:roomId", component:MultiRoomComponent, title:""},
-  {path:"lobby", component:LobbyRoomComponent, title:""},
 
 
 

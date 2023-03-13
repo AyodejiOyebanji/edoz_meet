@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import AgoraRTC from 'agora-rtc-sdk-ng';
-import AgoraRTM from 'agora-rtm-sdk';
+
 
 @Component({
   selector: 'app-multi-room',
@@ -41,6 +41,8 @@ export class MultiRoomComponent implements OnInit {
  
   public unMuteState= true
   public muteState= false
+  public unMuteStateMic= true
+  public muteStateMic= false
 
   constructor(
     private elRef: ElementRef,
@@ -258,13 +260,13 @@ export class MultiRoomComponent implements OnInit {
   async mic_btn() {
     if (this.localTracks[0].muted) {
       await this.localTracks[0].setMuted(false);
-      this.unMuteState= true;
-      this.muteState=false
+      this.unMuteStateMic= true;
+      this.muteStateMic=false
 
     } else {
       await this.localTracks[0].setMuted(true);
-      this.unMuteState= false;
-      this.muteState=true
+      this.unMuteStateMic= false;
+      this.muteStateMic=true
     }
   }
    toggleCircle() {
