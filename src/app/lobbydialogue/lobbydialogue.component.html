@@ -1,0 +1,11 @@
+
+<h3 class="text-center">Share this with the participants</h3>
+<div class="copy-box">
+    <input type="text" value={{roomId}} readonly>
+    <button class="copy-button" (click)="copyBtn()"><span class="material-symbols-outlined">
+        content_copy
+        </span></button>
+  </div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button (click)="GoToRoom()" mat-raised-button [mat-dialog-close]="true" >Go to room</button>

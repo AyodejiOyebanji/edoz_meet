@@ -16,19 +16,21 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import { MultiRoomComponent } from './multi-room/multi-room.component'
-
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatDialogModule} from '@angular/material/dialog';
+import { LobbydialogueComponent } from './lobbydialogue/lobbydialogue.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-   
     ParticipantsComponent,
     ParticipantComponent,
-
     LobbyRoomComponent,
     MultiRoomComponent,
+    LobbydialogueComponent,
 
 
   ],
@@ -39,7 +41,10 @@ import { MultiRoomComponent } from './multi-room/multi-room.component'
     FormsModule,
     MatIconModule,
     MatTooltipModule,
-    MatButtonModule
+    MatButtonModule,
+    MatMenuModule,
+    MatSnackBarModule,
+    MatDialogModule
 
 
   ],

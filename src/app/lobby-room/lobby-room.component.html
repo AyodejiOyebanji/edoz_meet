@@ -1,13 +1,3 @@
-<!-- <div class="container ">
-  <div class="col-6 shadow p-5 mx-auto mt-5">
-    <input type="text" class="form-control" placeholder="Your name"  [(ngModel)]="name">
-    <input type="text" class="form-control mt-2" placeholder="Enter room name" [(ngModel)]="roomName">
-    <button class="btn btn-primary mx-2" (click)="goToroom()">Go to room </button>
-
-  </div>
-
-</div> -->
-
 
 <h1>Welcome to our meeting page</h1>
 
@@ -24,7 +14,10 @@
     
     <input type="text" placeholder="Enter your name" [(ngModel)]="name">
 
-    <button type="submit" (click)="goToroom()">Create Meeting</button>
+     <!-- <button type="submit" (click)="goToroom()">Create Meeting</button>  -->
+
+    <button mat-raised-button (click)="openDialog()">Create Meeting</button>
+
   </div>
 </div>
 
@@ -32,9 +25,13 @@
   <div class="form">
     <h3>Join a Meeting</h3>
 
-    <input type="text" placeholder="Enter your name" [(ngModel)]="name">
+    <input type="text" placeholder="Enter your name" [(ngModel)]="joinName">
     <input type="email" placeholder="Enter the meeting Id" [(ngModel)]="roomName">
     <button type="submit" (click)="goToroom()">Join Meeting</button>
   </div>
 </div>
+
+
+
+
 

@@ -1,20 +1,25 @@
-
-
-
-
+.body{ 
+  width: 100%;
+  height: auto;
+  background-color: #3c4043; 
+}
 
 
 .container-fluid {
    margin-top: 88px;
-  height: clac(100vh - 74px);
+   /* height: clac(100vh - 74px);  */
+   height: 100%;
   width: 100%;
   position: relative;
+  background-color: #3c4043; 
+
 }
 
 #room__container {
   position: relative;
   display: flex;
   gap: -3rem;
+  background-color: #3c4043; 
 
 }
 
@@ -22,12 +27,14 @@
 
 #stream__container {
   justify-self: center;
-  width: calc(100% - 40.7rem);
+  /* width: calc(100% - 40.7rem); */
+  width:100%;
   position: fixed;
-  left: 15.7rem;
+  /* left: 15.7rem; */
   top: clac(100vh - 72px);
   overflow-y: auto;
   height: 100%;
+  background-color: #3c4043; 
 }
 #streams__container{
   display: flex;
@@ -37,6 +44,7 @@
   margin-top:25px ;
   margin-bottom: 225px;
   gap:2em;
+  
 }
 #streams__box{
 background-color: black;
@@ -50,25 +58,56 @@ width: 100% !important;
 }
 #streams__box video{
   border-radius: 0;
-  
+
 }
 
-.video__container{
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  border: 2px solid red !important;
-  cursor: pointer  !important;
-  overflow: hidden  !important;
-  height: 300px  !important;
-  width: 300px  !important;
-}
+
+
+
 
 .video_player{
   height: 100%;
   width: 100%;
+  background-color: black;
+
 }
 
+
+@media only screen and (min-width: 768px) {
+  /* For screen sizes 768px and up */
+  #streams__container {
+    gap: 3em;
+  }
+
+  .video__container {
+    height: 200px !important;
+    width: 200px !important;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  /* For screen sizes 992px and up */
+  #streams__container {
+    gap: 4em;
+  }
+
+  .video__container {
+    height: 150px !important;
+    width: 150px !important;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  /* For screen sizes 1200px and up */
+  #streams__container {
+    gap: 5em;
+  }
+
+  .video__container {
+    height: 125px !important;
+    width: 125px !important;
+  }
+}
 
 
 @media (max-width: 1400px) {
@@ -79,12 +118,20 @@ width: 100% !important;
   }
 }
 
+@media (max-width: 768px) {
+  .video__container {
+    width: calc(50% - 1em);
+    height: calc(50% - 1em);
+  }
+}
+
+
 @media (max-width: 1200px) {
   #members__container {
     display: none;
   }
 
-  
+
 
   #stream__container {
     width: calc(100% - 25rem);
@@ -97,7 +144,7 @@ width: 100% !important;
     width: calc(100% - 20rem);
     left: 0;
   }
-  
+
 }
 
 @media (max-width: 768px) {
@@ -119,7 +166,7 @@ width: 100% !important;
     display: none;
   }
 
-  
+
 }
 
 #stream__box {

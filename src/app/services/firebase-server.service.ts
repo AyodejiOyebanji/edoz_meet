@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
+import 'firebase/compat/database';
 
 
 
@@ -9,15 +9,13 @@ import 'firebase/compat/firestore';
 })
 export class FirebaseServerService {
   public  firebaseConfig = {
-    apiKey: "AIzaSyC38H2mlLpNST-kCSOLSXfEf5i2gILhm5s",
-    authDomain: "edoz-meet.firebaseapp.com",
-    databaseURL: "https://edoz-meet-default-rtdb.firebaseio.com",
-    projectId: "edoz-meet",
-    storageBucket: "edoz-meet.appspot.com",
-    messagingSenderId: "516257517082",
-    appId: "1:516257517082:web:5a6c4fd7f6c94c63054ba3"
-
-
+    apiKey: "AIzaSyBZatKlMVj_TESPsRfI3gFaW89SDPOunac",
+    authDomain: "edoz-meet-4ca27.firebaseapp.com",
+    projectId: "edoz-meet-4ca27",
+    storageBucket: "edoz-meet-4ca27.appspot.com",
+    messagingSenderId: "1038835794664",
+    appId: "1:1038835794664:web:8969065760249fba7fbf5d",
+    measurementId: "G-LX1B2QR02G"
   };
 
   constructor() {
