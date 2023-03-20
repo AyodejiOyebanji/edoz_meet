@@ -67,6 +67,8 @@ export class MultiRoomComponent implements OnInit {
   };
   public downloadUrl:any
   public loaderState:boolean= true
+  public recordingState :boolean=true
+  public stoprecordingState :boolean=false
 
   constructor(
     private elRef: ElementRef,
@@ -450,7 +452,8 @@ export class MultiRoomComponent implements OnInit {
   
 
   async startRecord() {
-    
+    this.recordingState=false
+    this.stoprecordingState=true
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({
         video: { mediaSource: "screen" } as MediaStreamConstraints['video'],
@@ -467,6 +470,8 @@ export class MultiRoomComponent implements OnInit {
   
   
   stopRecording() {
+    this.recordingState=true
+    this.stoprecordingState=false
     if (this.recordRTC) {
       this.recordRTC.stopRecording(() => {
         const recordedBlob = this.recordRTC.getBlob();

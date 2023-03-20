@@ -100,15 +100,22 @@
                    
                 </button>
                 <mat-menu #aboveMenu="matMenu" yPosition="above">
-                 
-                  <button mat-menu-item  (click)="startRecord()">
-                    <mat-icon>   radio_button_unchecked</mat-icon>
-                    <span>Record</span>
-                  </button>
-                  <button mat-menu-item  (click)="stopRecording()" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    <mat-icon>   radio_button_unchecked</mat-icon>
-                    <span>Record</span>
-                  </button>
+                 <ng-container *ngIf="recordingState">
+
+                   <button mat-menu-item  (click)="startRecord()" >
+                     <mat-icon>   radio_button_unchecked</mat-icon>
+                     <span>Record</span>
+                   </button>
+
+                 </ng-container>
+
+                 <ng-container *ngIf="stoprecordingState">
+                   <button class="bg-danger" mat-menu-item  (click)="stopRecording()" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                     <mat-icon>   radio_button_unchecked</mat-icon>
+                     <span class="text-light">Stop Recording</span>
+                   </button>
+
+                 </ng-container>
                 </mat-menu>
 
               </ng-container>
