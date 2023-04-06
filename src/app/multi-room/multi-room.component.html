@@ -1,150 +1,80 @@
-<div class="body">         
-           
-  
+<div class="body">
+  <!-- <div class="container-fluid"> -->
+  <div id="room__container">
+    <section id="stream__container">
+      <div id="streams__box" #streams__box></div>
+      <div id="streams__container" #streams__container></div>
 
-<!-- <div class="container-fluid"> -->
-   <div id="room__container">
-
-       <section id="stream__container">
-        <div id="streams__box" #streams__box>
-
-        </div>
-        <div id="streams__container" #streams__container>
+      <div class="stream__actions">
 
 
-        </div>
-        
-           <div class="stream__actions">
-         
-                <!-- <ng-container>
+        <ng-container *ngIf="unMuteState">
+          <button (click)="camera()" *ngIf="cameraBtn" class="initialBtn" mat-button matTooltip="Off Camera "
+            matTooltipPosition="above">
+            <span class="material-symbols-outlined"> videocam </span>
+          </button>
+        </ng-container>
 
-                  <button   class="btn initialBtn" matTooltip="Off Camera " matTooltipPosition="above">
-                    <span class="material-symbols-outlined">
-                      radio_button_unchecked
-                      </span>
-                   
-                     
-                  </button>
-                </ng-container> -->
-                <!-- <ng-container>
+        <ng-container *ngIf="muteState">
+          <button (click)="camera()" *ngIf="cameraBtn" class="btn-danger" mat-button matTooltip="On Camera "
+            matTooltipPosition="above">
+            <span class="material-symbols-outlined"> videocam_off </span>
+          </button>
+        </ng-container>
 
-                  <button   class="btn initialBtn" matTooltip="Off Camera " matTooltipPosition="above">
-                    <span class="material-symbols-outlined">
-                      radio_button_checked
-                      </span>
-                   
-                     
-                  </button>
-                </ng-container> -->
-                
-                <ng-container *ngIf="unMuteState">
+        <ng-container *ngIf="unMuteStateMic">
+          <button class="active" class="initialBtn" mat-button (click)="mic_btn()" matTooltip="Mute mic "
+            matTooltipPosition="above">
+            <span class="material-symbols-outlined"> mic </span>
+          </button>
+        </ng-container>
 
-                  <button (click)="camera()" *ngIf="cameraBtn" class=" initialBtn"  mat-button matTooltip="Off Camera " matTooltipPosition="above">
-                    <span class="material-symbols-outlined">
-                      videocam
-                      </span>
-                   
-                     
-                  </button>
-                </ng-container>
+        <ng-container *ngIf="muteStateMic">
+          <button class="active" (click)="mic_btn()" mat-button class="btn-danger" matTooltip="Unmute mic "
+            matTooltipPosition="above">
+            <span class="material-symbols-outlined"> mic_off </span>
+          </button>
+        </ng-container>
 
-                <ng-container *ngIf="muteState" >
+        <button (click)="screen_btn($event)" mat-button class="btn initialBtn" matTooltip="Share screen "
+          matTooltipPosition="above">
+          <span class="material-symbols-outlined"> screen_share </span>
+        </button>
 
-                  <button (click)="camera()" *ngIf="cameraBtn" class="  btn-danger"  mat-button matTooltip="On Camera " matTooltipPosition="above">
-                    <span class="material-symbols-outlined">
-                      videocam_off
-                      </span>
+        <ng-container>
+          <button class="initialBtn" mat-button [matMenuTriggerFor]="aboveMenu" matTooltip="More"
+            matTooltipPosition="above">
+            <span class="material-symbols-outlined"> more_vert </span>
+          </button>
+          <mat-menu #aboveMenu="matMenu" yPosition="above">
+            <ng-container *ngIf="recordingState">
+              <button mat-menu-item (click)="startRecord()">
+                <mat-icon> radio_button_unchecked</mat-icon>
+                <span>Record</span>
+              </button>
+            </ng-container>
 
-                  </button>
-                </ng-container >
+            <ng-container *ngIf="stoprecordingState">
+              <button class="bg-danger" mat-menu-item (click)="stopRecording()" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop">
+                <mat-icon> radio_button_unchecked</mat-icon>
+                <span class="text-light">Stop Recording</span>
+              </button>
+            </ng-container>
+          </mat-menu>
+        </ng-container>
 
-
-                  <ng-container *ngIf="unMuteStateMic">
-                   
-                    <button class="active" class=" initialBtn"  mat-button (click)="mic_btn()"  matTooltip="Mute mic " matTooltipPosition="above">
-                      <span class="material-symbols-outlined">
-                        mic
-                        </span>   </button>
-
-                  </ng-container>
-
-
-                  <ng-container *ngIf="muteStateMic">
-
-
-                    <button class="active" (click)="mic_btn()"  mat-button class="  btn-danger"  matTooltip="Unmute mic " matTooltipPosition="above">
-                      <span class="material-symbols-outlined">
-                        mic_off
-                        </span>
-                    </button>
-
-                  </ng-container>
-
-
-
-
-              
-               <button (click)="screen_btn($event)"  mat-button class="btn initialBtn" matTooltip="Share screen " matTooltipPosition="above">
-                <span class="material-symbols-outlined">
-                  screen_share
-                  </span>
-               </button>
-
-
-               <ng-container>
-
-                <button   class=" initialBtn"  mat-button [matMenuTriggerFor]="aboveMenu" matTooltip="More" matTooltipPosition="above">
-                  <span class="material-symbols-outlined">
-                    more_vert
-                    </span>
-                   
-                </button>
-                <mat-menu #aboveMenu="matMenu" yPosition="above">
-                 <ng-container *ngIf="recordingState">
-
-                   <button mat-menu-item  (click)="startRecord()" >
-                     <mat-icon>   radio_button_unchecked</mat-icon>
-                     <span>Record</span>
-                   </button>
-
-                 </ng-container>
-
-                 <ng-container *ngIf="stoprecordingState">
-                   <button class="bg-danger" mat-menu-item  (click)="stopRecording()" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                     <mat-icon>   radio_button_unchecked</mat-icon>
-                     <span class="text-light">Stop Recording</span>
-                   </button>
-
-                 </ng-container>
-                </mat-menu>
-
-              </ng-container>
-
-
-             
-
-
-               <button (click)="leave_btn()"  mat-button class="bg-danger">
-                <span class="material-symbols-outlined">
-                  call_end
-                  </span>
-               </button>
-           </div>
-       </section>
-
-
-  
+        <button (click)="leave_btn()" mat-button class="bg-danger">
+          <span class="material-symbols-outlined"> call_end </span>
+        </button>
+      </div>
+    </section>
+  </div>
 </div>
-</div>
-
-
-
-
-
-
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -155,11 +85,12 @@
         <div class="spinner-border text-primary" role="status" *ngIf="loaderState">
           <span class="visually-hidden">Loading...</span>
         </div>
-        {{downloadUrl}}
-      
+        {{ downloadUrl }}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
         <button type="button" class="btn btn-primary">Understood</button>
       </div>
     </div>
