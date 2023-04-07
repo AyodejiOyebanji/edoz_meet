@@ -50,7 +50,11 @@ export class MultiRoomComponent implements OnInit {
   public currentUser: any;
   public app: any;
   public db: any;
-  public allParticipants: any;
+  public allParticipants: { [key: string]: { uid: string, userName: string } } = {};
+  public getObjectKeys(obj: any): string[] {
+    return Object.keys(obj);
+  }
+
   public remoteUser: any;
   public recordingClient: any;
   public channelName: any =
@@ -67,6 +71,8 @@ export class MultiRoomComponent implements OnInit {
   public loaderState: boolean = true;
   public recordingState: boolean = true;
   public stoprecordingState: boolean = false;
+  participants = ['Alice', 'Bob', 'Charlie', 'Dave'];
+  showFiller = false;
 
   constructor(
     private elRef: ElementRef,
@@ -89,6 +95,8 @@ export class MultiRoomComponent implements OnInit {
     this.setUid();
     this.setRoomId();
     this.joinRoomInit();
+    console.log(this.allParticipants);
+    
   }
 
   setUid(): void {
@@ -122,6 +130,9 @@ export class MultiRoomComponent implements OnInit {
     this.db.ref(`participants/${this.roomId}`).on('value', (snapshot: any) => {
       let data = snapshot.val();
       this.allParticipants = data;
+      console.log(data);
+      
+
     });
   }
 
@@ -208,8 +219,8 @@ export class MultiRoomComponent implements OnInit {
       </div>
     `;
     this.displayFrame.insertAdjacentHTML('beforeend', player);
-    await this.localTracks[0].setMuted(true);
-    await this.localTracks[1].setMuted(true);
+    await this.localTracks[0].setMuted(false);
+    await this.localTracks[1].setMuted(false);
     this.localTracks[1].play(`user-${this.uid}`);
     await this.client.publish([this.localTracks[1]]);
   }
@@ -258,7 +269,12 @@ export class MultiRoomComponent implements OnInit {
 
   async handleUserLeft(user: any) {
     try {
+        // Remove the user's data from Firebase
+    let participantsRef = this.db.ref(`participants/${this.roomId}/${user.uid}`);
+    await participantsRef.remove();
+       // Remove the user from the remoteUsers object
       delete this.remoteUsers[user.uid];
+      // Remove the user's video frame from the DOM
       let userFrame = this.streams__container.nativeElement.querySelector(
         `#user-${user.uid}`
       );
@@ -414,7 +430,7 @@ export class MultiRoomComponent implements OnInit {
     //   this.streams__container.nativeElement.removeChild(localVideoElement);
     // }
 
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/userfeedback');
   }
 
   async startRecord() {
@@ -475,4 +491,8 @@ export class MultiRoomComponent implements OnInit {
       });
     }
   }
+
+
+
+ 
 }

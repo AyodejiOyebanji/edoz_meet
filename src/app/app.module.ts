@@ -20,6 +20,10 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import { LobbydialogueComponent } from './lobbydialogue/lobbydialogue.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatBadgeModule} from '@angular/material/badge';
+import { UserfeedbackComponent } from './userfeedback/userfeedback.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @NgModule({
@@ -31,6 +35,7 @@ import { LobbydialogueComponent } from './lobbydialogue/lobbydialogue.component'
     LobbyRoomComponent,
     MultiRoomComponent,
     LobbydialogueComponent,
+    UserfeedbackComponent,
 
 
   ],
@@ -44,7 +49,13 @@ import { LobbydialogueComponent } from './lobbydialogue/lobbydialogue.component'
     MatButtonModule,
     MatMenuModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSidenavModule,
+    MatBadgeModule,
+    MatFormFieldModule,
+  
+
+
 
 
   ],

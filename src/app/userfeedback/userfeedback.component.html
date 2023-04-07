@@ -1,0 +1,53 @@
+<div class="body">
+  <div class="container shadow">
+    <h1>Give us your Feedback.</h1>
+    <div class="post" #post>
+      <div class="text">Thanks for Rating Edoz-meet!</div>
+      <div class="btn">
+        <button
+          type="submit"
+          mat-button
+          class="homeBtn mt-3"
+          (click)="goToHome()"
+        >
+          Go To Home
+        </button>
+      </div>
+    </div>
+    <div class="star-widget" #widget>
+      <input type="radio" name="rate-5" id="rate-5" value="5" #rate5 />
+      <label for="rate-5">
+        <span class="material-symbols-outlined"> star </span></label
+      >
+      <input type="radio" name="rate-4" id="rate-4" value="4" #rate4 />
+      <label for="rate-4">
+        <span class="material-symbols-outlined"> star </span></label
+      >
+      <input type="radio" name="rate-3" id="rate-3" value="3" #rate3 />
+      <label for="rate-3">
+        <span class="material-symbols-outlined"> grade </span></label
+      >
+      <input type="radio" name="rate-2" id="rate-2" value="2" #rate2 />
+      <label for="rate-2"
+        ><span class="material-symbols-outlined"> star </span></label
+      >
+      <input type="radio" name="rate-1" id="rate-1" value="1" #rate1 />
+      <label for="rate-1"
+        ><span class="material-symbols-outlined"> star </span></label
+      >
+      <div class="form">
+        <header></header>
+        <div class="textarea">
+          <textarea
+            cols="30"
+            placeholder="Describe your experience ...."
+            [(ngModel)]="experience"
+          ></textarea>
+        </div>
+        <div class="btn">
+          <button type="submit" mat-button (click)="postBtn()">Post</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
