@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database';
+import { Subject } from 'rxjs';
 
 
 
@@ -8,6 +9,8 @@ import 'firebase/compat/database';
   providedIn: 'root'
 })
 export class FirebaseServerService {
+  private progressSubject = new Subject<number>();
+  progress$ = this.progressSubject.asObservable();
   public  firebaseConfig = {
     apiKey: "AIzaSyBZatKlMVj_TESPsRfI3gFaW89SDPOunac",
     authDomain: "edoz-meet-4ca27.firebaseapp.com",
@@ -20,8 +23,13 @@ export class FirebaseServerService {
 
   constructor() {
   
+
+
   }
 
+  setProgress(progress: number) {
+    this.progressSubject.next(progress);
+  }
 
 
 }

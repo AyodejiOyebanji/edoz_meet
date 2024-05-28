@@ -7,6 +7,9 @@ import 'firebase/compat/database';
 import 'firebase/compat/storage';
 import { FirebaseServerService } from '../services/firebase-server.service';
 import RecordRTC from 'recordrtc';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { VirtualmeetingdialogueComponent } from '../virtualmeetingdialogue/virtualmeetingdialogue.component';
 
 @Component({
   selector: 'app-multi-room',
@@ -73,18 +76,35 @@ export class MultiRoomComponent implements OnInit {
   public stoprecordingState: boolean = false;
   participants = ['Alice', 'Bob', 'Charlie', 'Dave'];
   showFiller = false;
-
+  public screen_sharing_state = false;
+  public screenSharingPlayer: any;
+  public isRecording = false;
+  public isSmallScreen = false;
+  public currentTime:any
   constructor(
     private elRef: ElementRef,
     private route: ActivatedRoute,
     public router: Router,
     private _snackBar: MatSnackBar,
-    public _firebaseService: FirebaseServerService
+    public _firebaseService: FirebaseServerService,
+    public breakpointObserver: BreakpointObserver,
+    public dialog?: MatDialog,
   ) {
     this.app = firebase.initializeApp(this._firebaseService.firebaseConfig);
   }
 
   ngOnInit(): void {
+
+    this.breakpointObserver.observe(['(max-width: 767px)']).subscribe((result) => {
+      this.isSmallScreen = result.matches;
+    });
+       // Initial time display
+       this.updateTime();
+
+       // Update time every second
+       setInterval(() => {
+         this.updateTime();
+       }, 1000);
     if (!this.userName) {
       this.router.navigate(['/lobby']);
     }
@@ -363,49 +383,142 @@ export class MultiRoomComponent implements OnInit {
   toggleCircle() {
     const circle = document.querySelector(`#user-${this.uid} .circle`);
   }
+  // async screen_btn(e: any) {
+  //   if (!this.sharingScreen) {
+  //     this.sharingScreen = true;
+  //     this.cameraBtn = false;
+  //     this.localScreenTracks = await AgoraRTC.createScreenVideoTrack({
+  //       encoderConfig: {
+  //         width: 1920,
+  //         height: 1080,
+  //         frameRate: 30,
+  //       },
+  //       optimizationMode: 'detail',
+  //     });
+  //     document.getElementById(`user--container-${this.uid}`)?.remove();
+  //     this.displayFrame.style.display = 'block';
+  //     let player = `
+  //     <div class="video__container" id="user--container-${this.uid}">
+  //       <div class="video-player" id="user-${this.uid}">
+        
+  //       </div>
+  //     </div>
+  //   `;
+  //     this.displayFrame.insertAdjacentHTML('beforeend', player);
+  //     document
+  //       .getElementById(`user--container-${this.uid}`)
+  //       ?.addEventListener('click', this.expandVideoFrame);
+  //     this.userIdIndisplayFrame = `user--container-${this.uid}`;
+  //     this.localScreenTracks.play(`user-${this.uid}`);
+  //     await this.client.unpublish([this.localTracks[1]]);
+  //     await this.client.publish([this.localScreenTracks]);
+  //     let videoFrame =
+  //       this.elRef.nativeElement.getElementsByClassName('video__container');
+  //     for (let i = 0; videoFrame.length > i; i++) {
+  //       if (videoFrame[i].id != this.userIdIndisplayFrame) {
+  //         videoFrame[i].style.height = '100px';
+  //         videoFrame[i].style.width = '100px';
+  //       }
+  //     }
+  //   } else {
+  //     this.sharingScreen = false;
+  //     this.cameraBtn = true;
+  //     document.getElementById(`user--container-${this.uid}`)?.remove();
+  //     await this.client.unpublish([this.localScreenTracks]);
+  //     this.switchToCamera();
+  //   }
+  // }
+
   async screen_btn(e: any) {
-    if (!this.sharingScreen) {
+    try {
       this.sharingScreen = true;
       this.cameraBtn = false;
+      this.screen_sharing_state = true;
+
+      // Create a screen sharing video track
       this.localScreenTracks = await AgoraRTC.createScreenVideoTrack({
         encoderConfig: {
           width: 1920,
           height: 1080,
           frameRate: 30,
         },
-        optimizationMode: 'detail',
+        optimizationMode: "detail",
       });
-      document.getElementById(`user--container-${this.uid}`)?.remove();
-      this.displayFrame.style.display = 'block';
-      let player = `
-      <div class="video__container" id="user--container-${this.uid}">
-        <div class="video-player" id="user-${this.uid}">
-        
+
+      // Create a frame for the shared screen, taking up the whole screen
+      this.displayFrame.style.display = "block"; // Use block to make it full screen
+      this.screenSharingPlayer = `
+      <div class="video__container" id="screen-sharing-container-${this.uid}" style="width: 100%; height: 100%;">
+        <div class="video-player" id="screen-sharing-${this.uid}" style="width: 100%; height: 100%;">
         </div>
       </div>
     `;
-      this.displayFrame.insertAdjacentHTML('beforeend', player);
-      document
-        .getElementById(`user--container-${this.uid}`)
-        ?.addEventListener('click', this.expandVideoFrame);
-      this.userIdIndisplayFrame = `user--container-${this.uid}`;
-      this.localScreenTracks.play(`user-${this.uid}`);
-      await this.client.unpublish([this.localTracks[1]]);
-      await this.client.publish([this.localScreenTracks]);
-      let videoFrame =
-        this.elRef.nativeElement.getElementsByClassName('video__container');
-      for (let i = 0; videoFrame.length > i; i++) {
-        if (videoFrame[i].id != this.userIdIndisplayFrame) {
-          videoFrame[i].style.height = '100px';
-          videoFrame[i].style.width = '100px';
+
+      // this.screenSharingPlayerRemote = `
+      //   <div class="video__container" id="screen-sharing-container-${this.uid}" style="width: 100%; height: 100%;">
+      //     <div class="video-player" id="screen-sharing-${this.remoteUserUid}" style="width: 100%; height: 100%;">
+      //     </div>
+      //   </div>
+      // `;
+
+      if ((this.sharingScreen = true)) {
+        const element = document.getElementById(`streams__box`);
+
+        if (element) {
+          element.style.width = "100%";
+          element.style.height = "60vh";
+          element.style.display = "block";
         }
       }
-    } else {
+
+      this.displayFrame.innerHTML = "";
+      this.displayFrame.insertAdjacentHTML(
+        "beforeend",
+        this.screenSharingPlayer
+      );
+
+      // Play the screen sharing video track
+      this.localScreenTracks.play(`screen-sharing-${this.uid}`);
+
+      // Publish the screen sharing track and unpublish the camera track
+
+      await this.client.unpublish([this.localTracks[1]]);
+      await this.client.publish([this.localScreenTracks]);
+    } catch (error) {
+      console.error("Error sharing screen:", error);
+      // Handle error
       this.sharingScreen = false;
       this.cameraBtn = true;
-      document.getElementById(`user--container-${this.uid}`)?.remove();
-      await this.client.unpublish([this.localScreenTracks]);
-      this.switchToCamera();
+    }
+  }
+
+  async stop_screen_btn() {
+    try {
+      if (this.sharingScreen) {
+        // Stop screen sharing
+        await this.client.unpublish([this.localScreenTracks]);
+
+        const element = document.getElementById(`streams__box`);
+
+        if (element) {
+          element.style.width = "0";
+          element.style.height = "0";
+          element.style.display = "none";
+        }
+
+        this.screen_sharing_state = false;
+        this.sharingScreen = false;
+        // console.log(this.sharingScreen);
+        
+        // console.log(this.sharingScreen);
+
+        this.cameraBtn = true;
+      }
+    } catch (error) {
+      // console.error('Error stopping screen sharing:', error);
+      this._snackBar.open("Error stopping screen sharing", "Close", {
+        duration: 5000,
+      });
     }
   }
 
@@ -433,39 +546,119 @@ export class MultiRoomComponent implements OnInit {
     this.router.navigateByUrl('/userfeedback');
   }
 
-  async startRecord() {
-    this.recordingState = false;
-    this.stoprecordingState = true;
+  
+
+  getVoices() {
+    let voices = speechSynthesis.getVoices();
+    if (!voices.length) {
+      // some time the voice will not be initialized so we can call spaek with empty string
+      // this will initialize the voices
+      let utterance = new SpeechSynthesisUtterance("");
+      speechSynthesis.speak(utterance);
+      voices = speechSynthesis.getVoices();
+    }
+    return voices;
+  }
+  async requestPermissions() {
     try {
-      const stream = await navigator.mediaDevices.getDisplayMedia({
-        video: { mediaSource: 'screen' } as MediaStreamConstraints['video'],
-        audio: true,
-      });
-      this.recordRTC = new RecordRTC(stream, this.options);
-      this.recordRTC.startRecording();
-      this._snackBar.open('Recording started', 'Close', { duration: 5000 });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      stream.getTracks().forEach(track => track.stop()); // Stop the tracks after getting permission
+      return true;
     } catch (error) {
-      console.error('Error starting recording:', error);
+      console.error("Error requesting permissions:", error);
+      return false;
     }
   }
-
+  
+  async startRecord() {
+    const hasPermissions = await this.requestPermissions();
+    if (!hasPermissions) {
+      this._snackBar.open("Permission denied. Cannot start recording.", "Close", { duration: 5000 });
+      return;
+    }
+  
+    this.recordingState = false;
+    this.stoprecordingState = true;
+    this.isRecording = true;
+    try {
+      // Get video and audio stream from user's screen and microphone
+      const screenStream = await navigator.mediaDevices.getDisplayMedia({
+        video: {
+          width: { ideal: 3840 }, // Desired video width for higher resolution (e.g., 4K)
+          height: { ideal: 2160 }, // Desired video height for higher resolution (e.g., 4K)
+          frameRate: { ideal: 60 }  // Higher frame rate for smoother video
+        }
+      });
+  
+      const audioStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true, // Enable echo cancellation
+          noiseSuppression: true, // Enable noise suppression
+          sampleRate: 48000, // Higher sample rate for better audio quality
+          channelCount: 2 // Number of audio channels
+        }
+      });
+  
+      // Combine screen and audio streams
+      const combinedStream = new MediaStream([...screenStream.getTracks(), ...audioStream.getTracks()]);
+  
+      // Initialize RecordRTC with the stream and high bitrate options
+      this.recordRTC = new RecordRTC(combinedStream, {
+        type: 'video',
+        mimeType: 'video/webm;codecs=vp9', // Use VP9 codec for better quality at lower bitrates
+        bitsPerSecond: 8 * 1024 * 1024 // 8 Mbps for better video quality
+      });
+  
+      this.recordRTC.startRecording();
+  
+      // Notify the user that recording has started
+      this._snackBar.open("Recording started", "Close", { duration: 5000 });
+  
+      // Use Web Speech API to announce that recording has started
+      if ("speechSynthesis" in window) {
+        console.log("Web Speech API supported!");
+  
+        const synth = window.speechSynthesis;
+        const message = "Recording started";
+        const utterThis = new SpeechSynthesisUtterance(message);
+  
+        utterThis.voice = this.getVoices()[0];
+        synth.speak(utterThis);
+      } else {
+        console.log("Web Speech API not supported :-(");
+      }
+    } catch (error) {
+      console.error("Error starting recording:", error);
+    }
+  }
+  
+  
   stopRecording() {
     this.recordingState = true;
     this.stoprecordingState = false;
+  
     if (this.recordRTC) {
+      if ("speechSynthesis" in window) {
+        const synth = window.speechSynthesis;
+        const message = "Recording stopped";
+        const utterThis = new SpeechSynthesisUtterance(message);
+
+        utterThis.voice = this.getVoices()[0];
+        synth.speak(utterThis);
+      }
       this.recordRTC.stopRecording(() => {
         const recordedBlob = this.recordRTC.getBlob();
-
+  
         const storageRef = firebase.storage().ref();
         const filename = Math.random().toString(36).substring(2);
         const metadata = {
           contentType: 'video/webm',
         };
-
+  
         const uploadTask = storageRef
           .child(`recordings/${filename}`)
           .put(recordedBlob, metadata);
-
+  
         uploadTask.on(
           firebase.storage.TaskEvent.STATE_CHANGED,
           (snapshot) => {
@@ -479,20 +672,89 @@ export class MultiRoomComponent implements OnInit {
             // upload complete
             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
               this.downloadUrl = downloadURL;
+              console.log(this.downloadUrl);
+              
               this.loaderState = false;
               this._snackBar.open('Recording stopped', 'Close', {
                 duration: 5000,
               });
+  
+            
             });
           }
         );
-
+  
         this.recordRTC = null;
       });
+    } else {
+      if ("speechSynthesis" in window) {
+        const synth = window.speechSynthesis;
+        const message = "Recording stopped";
+        const utterThis = new SpeechSynthesisUtterance(message);
+  
+        utterThis.voice = this.getVoices()[0];
+        synth.speak(utterThis);
+      }
     }
   }
+  
+  private updateTime(): void {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const ampm = hours >= 12 ? "PM" : "AM";
 
+    // Format hours in 12-hour format
+    const formattedHours = hours % 12 || 12;
 
+    // Format minutes with leading zero
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
+    this.currentTime = `${formattedHours}:${formattedMinutes}${ampm}`;
+  }
+
+  showEveyone() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.position = {
+      top: "20px",
+      right: "20px",
+    };
+
+    dialogConfig.minWidth = "20%";
+    dialogConfig.minHeight = "85vh";
+    
+    dialogConfig.data = {
+      form_title: `Participants`,
+      type: "participants",
+      participants: this.allParticipants,
+    };
+    dialogConfig.panelClass = 'dialog-container'
+    const dialogRef = this.dialog?.open(
+      VirtualmeetingdialogueComponent,
+      dialogConfig,
+      
+    );
+  }
+  inCallMessage() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.position = {
+      top: "20px",
+      right: "20px",
+    };
+
+    dialogConfig.minWidth = "20%";
+    dialogConfig.minHeight = "85vh";
+    dialogConfig.data = {
+      form_title: `In-call messages`,
+      type: "in-call-messages",
+      username: this.userName,
+      uid: this.uid,
+      roomId: this.roomId,
+    };
+    const dialogRef = this.dialog?.open(
+      VirtualmeetingdialogueComponent,
+      dialogConfig
+    );
+  }
  
 }

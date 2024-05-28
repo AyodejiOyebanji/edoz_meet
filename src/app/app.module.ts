@@ -24,7 +24,11 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatBadgeModule} from '@angular/material/badge';
 import { UserfeedbackComponent } from './userfeedback/userfeedback.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
+import { VirtualmeetingdialogueComponent } from './virtualmeetingdialogue/virtualmeetingdialogue.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -36,6 +40,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MultiRoomComponent,
     LobbydialogueComponent,
     UserfeedbackComponent,
+    VirtualmeetingdialogueComponent,
 
 
   ],
@@ -53,6 +58,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatSidenavModule,
     MatBadgeModule,
     MatFormFieldModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatProgressBarModule,
+    MatExpansionModule
+    
+  
   
 
 
