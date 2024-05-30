@@ -1,23 +1,10 @@
 <div class="body">
  
   <mat-drawer-container class="example-container" autosize>
-    <mat-drawer #drawer class="example-sidenav" mode="side">
-      <h3>Participants</h3>
-      
-      <ul>
-        <li *ngFor="let participant of allParticipants | keyvalue" class="participant-item">{{ participant.value.userName }}</li>
-      </ul>
-      
-        
-
-  
-
-    </mat-drawer>
+   
   
     <div class="example-sidenav-content">
-      <!-- <button type="button" mat-button class="initialBtn text-light m-3" (click)="drawer.toggle()" [matBadge]="getObjectKeys(allParticipants).length">
-       Participants
-      </button> -->
+     
 
       <div id="room__container">
     

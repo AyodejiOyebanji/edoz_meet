@@ -330,21 +330,37 @@ export class MultiRoomComponent implements OnInit {
   }
 
   expandVideoFrame = (e: any) => {
-    let child = this.displayFrame.children[0];
-    if (child) {
-      this.streams__container.nativeElement.appendChild(child);
-    }
-    this.displayFrame.style.display = 'block';
-    this.displayFrame.appendChild(e.currentTarget);
-    this.userIdIndisplayFrame = e.currentTarget.id;
-    for (let i = 0; this.videoFrame.length > i; i++) {
-      if (this.videoFrame[i].id != this.userIdIndisplayFrame) {
-        this.videoFrame[i].style.height = '100px';
-        this.videoFrame[i].style.width = '100px';
+    // Check if the clicked frame is already expanded
+    if (this.userIdIndisplayFrame === e.currentTarget.id) {
+      // If it is, hide the display frame and reset the sizes of all video frames
+      this.userIdIndisplayFrame = null;
+       this.displayFrame.style.display = 'none';
+      let child = this.displayFrame.children[0];
+      if (child) {
+        this.streams__container.nativeElement.appendChild(child);
+      }
+       for (let i = 0; i < this.videoFrame.length; i++) {
+        this.videoFrame[i].style.height = '300px';
+        this.videoFrame[i].style.width = '300px';
+      }
+    } else {
+      // If it isn't, expand the clicked frame
+      let child = this.displayFrame.children[0];
+      if (child) {
+        this.streams__container.nativeElement.appendChild(child);
+      }
+      this.displayFrame.style.display = 'block';
+      this.displayFrame.appendChild(e.currentTarget);
+      this.userIdIndisplayFrame = e.currentTarget.id;
+       for (let i = 0; i < this.videoFrame.length; i++) {
+        if (this.videoFrame[i].id != this.userIdIndisplayFrame) {
+          this.videoFrame[i].style.height = '100px';
+          this.videoFrame[i].style.width = '100px';
+        }
       }
     }
   };
-
+ 
   hideDisplayFrame() {
     this.userIdIndisplayFrame = null;
 
@@ -433,9 +449,8 @@ export class MultiRoomComponent implements OnInit {
     try {
       this.sharingScreen = true;
       this.cameraBtn = false;
-      this.screen_sharing_state = true;
-
-      // Create a screen sharing video track
+  
+      // Try to create a screen sharing video track
       this.localScreenTracks = await AgoraRTC.createScreenVideoTrack({
         encoderConfig: {
           width: 1920,
@@ -444,53 +459,50 @@ export class MultiRoomComponent implements OnInit {
         },
         optimizationMode: "detail",
       });
-
+  
+      // Only set this after successfully creating the screen track
+      this.screen_sharing_state = true;
+  
       // Create a frame for the shared screen, taking up the whole screen
       this.displayFrame.style.display = "block"; // Use block to make it full screen
       this.screenSharingPlayer = `
-      <div class="video__container" id="screen-sharing-container-${this.uid}" style="width: 100%; height: 100%;">
-        <div class="video-player" id="screen-sharing-${this.uid}" style="width: 100%; height: 100%;">
+        <div class="video__container" id="screen-sharing-container-${this.uid}" style="width: 100%; height: 100%;">
+          <div class="video-player" id="screen-sharing-${this.uid}" style="width: 100%; height: 100%;">
+          </div>
         </div>
-      </div>
-    `;
-
-      // this.screenSharingPlayerRemote = `
-      //   <div class="video__container" id="screen-sharing-container-${this.uid}" style="width: 100%; height: 100%;">
-      //     <div class="video-player" id="screen-sharing-${this.remoteUserUid}" style="width: 100%; height: 100%;">
-      //     </div>
-      //   </div>
-      // `;
-
-      if ((this.sharingScreen = true)) {
+      `;
+  
+      if (this.sharingScreen === true) {
         const element = document.getElementById(`streams__box`);
-
+  
         if (element) {
           element.style.width = "100%";
           element.style.height = "60vh";
           element.style.display = "block";
         }
       }
-
+  
       this.displayFrame.innerHTML = "";
       this.displayFrame.insertAdjacentHTML(
         "beforeend",
         this.screenSharingPlayer
       );
-
+  
       // Play the screen sharing video track
       this.localScreenTracks.play(`screen-sharing-${this.uid}`);
-
+  
       // Publish the screen sharing track and unpublish the camera track
-
       await this.client.unpublish([this.localTracks[1]]);
       await this.client.publish([this.localScreenTracks]);
     } catch (error) {
       console.error("Error sharing screen:", error);
-      // Handle error
+      // Handle error - reset states
       this.sharingScreen = false;
+      this.screen_sharing_state = false; // Reset the screen sharing state
       this.cameraBtn = true;
     }
   }
+  
 
   async stop_screen_btn() {
     try {
